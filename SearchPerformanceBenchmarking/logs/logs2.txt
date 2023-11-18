@@ -1,0 +1,61 @@
+Running Search Tests
+Number of Embeddings: 1000, Embedding Dimension: 10
+Metric: cosine, Device: GPU, Search Time: 0.0009 seconds
+Metric: cosine, Device: CPU, Search Time: 0.0004 seconds
+Metric: euclidean, Device: GPU, Search Time: 0.5248 seconds
+Metric: euclidean, Device: CPU, Search Time: 0.0003 seconds
+Number of Embeddings: 1000, Embedding Dimension: 128
+Metric: cosine, Device: GPU, Search Time: 0.0002 seconds
+Metric: cosine, Device: CPU, Search Time: 0.0005 seconds
+Metric: euclidean, Device: GPU, Search Time: 0.0002 seconds
+Metric: euclidean, Device: CPU, Search Time: 0.0003 seconds
+Number of Embeddings: 1000, Embedding Dimension: 256
+Metric: cosine, Device: GPU, Search Time: 0.0003 seconds
+Metric: cosine, Device: CPU, Search Time: 0.0014 seconds
+Metric: euclidean, Device: GPU, Search Time: 0.0003 seconds
+Metric: euclidean, Device: CPU, Search Time: 0.0004 seconds
+Number of Embeddings: 1000, Embedding Dimension: 512
+Metric: cosine, Device: GPU, Search Time: 0.0002 seconds
+Metric: cosine, Device: CPU, Search Time: 0.0042 seconds
+Metric: euclidean, Device: GPU, Search Time: 0.0002 seconds
+Metric: euclidean, Device: CPU, Search Time: 0.0008 seconds
+Number of Embeddings: 100000, Embedding Dimension: 10
+Metric: cosine, Device: GPU, Search Time: 0.0075 seconds
+Metric: cosine, Device: CPU, Search Time: 0.0153 seconds
+Metric: euclidean, Device: GPU, Search Time: 0.0004 seconds
+Metric: euclidean, Device: CPU, Search Time: 0.0033 seconds
+Number of Embeddings: 100000, Embedding Dimension: 128
+Metric: cosine, Device: GPU, Search Time: 0.0086 seconds
+Metric: cosine, Device: CPU, Search Time: 0.2234 seconds
+Metric: euclidean, Device: GPU, Search Time: 0.0012 seconds
+Metric: euclidean, Device: CPU, Search Time: 0.1090 seconds
+Number of Embeddings: 100000, Embedding Dimension: 256
+Metric: cosine, Device: GPU, Search Time: 0.0094 seconds
+Metric: cosine, Device: CPU, Search Time: 0.4391 seconds
+Metric: euclidean, Device: GPU, Search Time: 0.0019 seconds
+Metric: euclidean, Device: CPU, Search Time: 0.2523 seconds
+Number of Embeddings: 100000, Embedding Dimension: 512
+Metric: cosine, Device: GPU, Search Time: 0.0119 seconds
+Metric: cosine, Device: CPU, Search Time: 0.8539 seconds
+Metric: euclidean, Device: GPU, Search Time: 0.0031 seconds
+Metric: euclidean, Device: CPU, Search Time: 0.4392 seconds
+Number of Embeddings: 1000000, Embedding Dimension: 10
+Metric: cosine, Device: GPU, Search Time: 0.1008 seconds
+Metric: cosine, Device: CPU, Search Time: 0.2632 seconds
+Metric: euclidean, Device: GPU, Search Time: 0.0029 seconds
+Metric: euclidean, Device: CPU, Search Time: 0.1078 seconds
+Number of Embeddings: 1000000, Embedding Dimension: 128
+Metric: cosine, Device: GPU, Search Time: 0.1050 seconds
+Metric: cosine, Device: CPU, Search Time: 2.2577 seconds
+Metric: euclidean, Device: GPU, Search Time: 0.0105 seconds
+Metric: euclidean, Device: CPU, Search Time: 1.1250 seconds
+Number of Embeddings: 1000000, Embedding Dimension: 256
+Metric: cosine, Device: GPU, Search Time: 0.1142 seconds
+Metric: cosine, Device: CPU, Search Time: 7.0329 seconds
+Metric: euclidean, Device: GPU, Search Time: 0.5980 seconds
+Metric: euclidean, Device: CPU, Search Time: 2.2621 seconds
+Number of Embeddings: 1000000, Embedding Dimension: 512
+Metric: cosine, Device: GPU, Search Time: 0.2633 seconds
+Metric: cosine, Device: CPU, Search Time: 24.1409 seconds
+Metric: euclidean, Device: GPU, Search Time: 0.1081 seconds
+Metric: euclidean, Device: CPU, Search Time: 13.0415 seconds

@@ -1,0 +1,21 @@
+Running Space Complexity Tests
+Number of Embeddings: 1000, Embedding Dimension: 128
+Space: 0.4883 MB
+Number of Embeddings: 1000, Embedding Dimension: 256
+Space: 0.9766 MB
+Number of Embeddings: 1000, Embedding Dimension: 512
+Space: 1.9531 MB
+Number of Embeddings: 100000, Embedding Dimension: 128
+Space: 48.8281 MB
+Number of Embeddings: 100000, Embedding Dimension: 256
+Space: 97.6562 MB
+Number of Embeddings: 100000, Embedding Dimension: 512
+Space: 195.3125 MB
+Number of Embeddings: 1000000, Embedding Dimension: 128
+Space: 488.2812 MB
+Number of Embeddings: 1000000, Embedding Dimension: 256
+Space: 976.5625 MB
+Number of Embeddings: 1000000, Embedding Dimension: 512
+Space: 1953.1250 MB
+Running Search Tests
+Number of Embeddings: 1000, Embedding Dimension: 10
