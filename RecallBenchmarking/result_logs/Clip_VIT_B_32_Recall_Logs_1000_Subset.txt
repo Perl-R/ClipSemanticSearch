@@ -1,0 +1,30 @@
+cuda
+loading annotations into memory...
+Done (t=0.01s)
+creating index...
+index created!
+Encoding Dataset
+Generating Text-Image and Image-Text Mappings
+T-I Mapping Length: 5000
+I-T Mapping Length: 1000
+Obtaining Encodings
+Image_Encodings Shape: torch.Size([1000, 512])
+Text_Encodings Shape: torch.Size([5000, 512])
+T-I Map Shape: torch.Size([5000])
+I-T Map Shape: torch.Size([1000, 5])
+num_text=5000, num_im=1000
+Text-to-image recall
+Obtaining Scores for each K value
+Image-to-text recall
+Obtaining Scores for each K value
+Done
+Text-to-image Recall@K
+ R@1: 59.42%
+ R@5: 86.12%
+ R@10: 93.38%
+ R@50: 99.28%
+Image-to-text Recall@K
+ R@1: 74.80%
+ R@5: 93.90%
+ R@10: 97.40%
+ R@50: 99.90%
