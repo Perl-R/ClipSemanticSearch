@@ -1,0 +1,31 @@
+cuda
+model_name='coca_ViT-B-32', pretrained_name='laion2b_s13b_b90k'
+loading annotations into memory...
+Done (t=0.02s)
+creating index...
+index created!
+Encoding Dataset
+Generating Text-Image and Image-Text Mappings
+T-I Mapping Length: 5000
+I-T Mapping Length: 1000
+Obtaining Encodings
+Image_Encodings Shape: torch.Size([1000, 512])
+Text_Encodings Shape: torch.Size([5000, 512])
+T-I Map Shape: torch.Size([5000])
+I-T Map Shape: torch.Size([1000, 5])
+num_text=5000, num_im=1000
+Text-to-image recall
+Obtaining Scores for each K value
+Image-to-text recall
+Obtaining Scores for each K value
+Done
+Text-to-image Recall@K
+ R@1: 56.44%
+ R@5: 84.42%
+ R@10: 92.06%
+ R@50: 99.28%
+Image-to-text Recall@K
+ R@1: 73.70%
+ R@5: 92.90%
+ R@10: 97.70%
+ R@50: 99.80%

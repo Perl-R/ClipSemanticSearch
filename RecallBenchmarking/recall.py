@@ -19,11 +19,14 @@ if RUN_FINETUNED_CLIP:
 else:
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     print(device)
+    model_name = 'ViT-B-32'
+    pretrained_name = 'laion2b_s34b_b79k'
+    print(f"{model_name=}, {pretrained_name=}")
 
-    model, _, transform = open_clip.create_model_and_transforms('ViT-B-32', pretrained='laion2b_s34b_b79k')
+    model, _, transform = open_clip.create_model_and_transforms(model_name, pretrained=pretrained_name)
     model.to(device).eval()
 
-    tokenizer = open_clip.get_tokenizer('ViT-B-32')
+    tokenizer = open_clip.get_tokenizer(model_name)
 
 # K values for recall test
 k_vals =[1, 5, 10, 50]

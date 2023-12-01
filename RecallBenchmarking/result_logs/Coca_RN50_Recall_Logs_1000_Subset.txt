@@ -1,0 +1,31 @@
+cuda
+model_name='RN50', pretrained_name='openai'
+loading annotations into memory...
+Done (t=0.01s)
+creating index...
+index created!
+Encoding Dataset
+Generating Text-Image and Image-Text Mappings
+T-I Mapping Length: 5000
+I-T Mapping Length: 1000
+Obtaining Encodings
+Image_Encodings Shape: torch.Size([1000, 1024])
+Text_Encodings Shape: torch.Size([5000, 1024])
+T-I Map Shape: torch.Size([5000])
+I-T Map Shape: torch.Size([1000, 5])
+num_text=5000, num_im=1000
+Text-to-image recall
+Obtaining Scores for each K value
+Image-to-text recall
+Obtaining Scores for each K value
+Done
+Text-to-image Recall@K
+ R@1: 48.90%
+ R@5: 77.26%
+ R@10: 88.36%
+ R@50: 98.70%
+Image-to-text Recall@K
+ R@1: 69.10%
+ R@5: 91.30%
+ R@10: 95.10%
+ R@50: 99.80%
