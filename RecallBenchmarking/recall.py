@@ -11,6 +11,9 @@ CAPTIONS_PER_IMAGE = 5 # Note: This is because some images in the COCO captions 
 RUN_FINETUNED_CLIP = False
 COCO_ROOT_PATH = r"D:\Programming\datasets\coco\val2017"
 COCO_ANNOTATIONS_PATH = r"D:\Programming\CAP 5415\ClipSemanticSearch\RecallBenchmarking\annotation_files\captions_val2017_1000_subset.json"
+USE_EUCLIDEAN_DISTANCE = False
+
+print(f"{USE_EUCLIDEAN_DISTANCE=}")
 
 # Load our model for testing
 if RUN_FINETUNED_CLIP:
@@ -19,8 +22,8 @@ if RUN_FINETUNED_CLIP:
 else:
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     print(device)
-    model_name = 'ViT-B-32'
-    pretrained_name = 'laion2b_s34b_b79k'
+    model_name = 'RN50'
+    pretrained_name = 'openai'
     print(f"{model_name=}, {pretrained_name=}")
 
     model, _, transform = open_clip.create_model_and_transforms(model_name, pretrained=pretrained_name)
@@ -90,10 +93,6 @@ def encode_dataset(model, dataset, batch_size=16):
         print(f"T-I Map Shape: {text_to_image_map.shape}")
         print(f"I-T Map Shape: {image_to_text_map.shape}")
 
-        # Normalise encodings
-        image_encodings = image_encodings / image_encodings.norm(dim=-1, keepdim=True)
-        text_encodings = text_encodings / text_encodings.norm(dim=-1, keepdim=True)
-
         return image_encodings, text_encodings, text_to_image_map, image_to_text_map
 
 def recall_at_k(model, dataset, k_vals, batch_size=16):
@@ -107,11 +106,35 @@ def recall_at_k(model, dataset, k_vals, batch_size=16):
     # text-to-image recall
     print("Text-to-image recall")
 
-    dist_matrix = text_encodings @ image_encodings.T  # dist_matrix[i] gives logits for ith text
+    if USE_EUCLIDEAN_DISTANCE:
+        print("Using Euclidean Distance (Note: We are not using normalized vectors)")
+        '''
+        Note: If we normalized the vectors then the Euclidean similarity rankings would be equivalent to the 
+            cosine similarity: https://stats.stackexchange.com/questions/146221/is-cosine-similarity-identical-to-l2-normalized-euclidean-distance
+        '''
+        dist_matrix = torch.cdist(text_encodings.unsqueeze(0), image_encodings.unsqueeze(0), p=2)
+        dist_matrix = 1 / (1 + dist_matrix) # Find the inverse of the distance to find similarity
+        dist_matrix = dist_matrix.squeeze(0)
+    else:
+        print("Using Cosine Similarity")
+        '''
+        Obtain the Cosine similarity by multiplying the normalized vectors
+
+        Note: Cosine(x, y) = (x * y) / (||x|| * ||y||), but if the vectors are already normalized, then 
+            ||x|| * ||y|| = 1, and thus the formula becomes: cosine(x, y) = (x * y) for normalized vectors   
+        '''
+
+        # Normalize the vectors
+        image_encodings = image_encodings / image_encodings.norm(dim=-1, keepdim=True)
+        text_encodings = text_encodings / text_encodings.norm(dim=-1, keepdim=True)
+
+        dist_matrix = text_encodings @ image_encodings.T  # dist_matrix[i] gives logits for ith text
 
     # Note: this matrix is pretty big (5000 x 25000 with dtype float16 = 250MB)
     #  torch.argsort runs out of memory for me (6GB VRAM) so I move to CPU for sorting
     dist_matrix = dist_matrix.cpu()
+
+    print(f'dist_matrix shape: {dist_matrix.shape}')
 
     # Sort in descending order; first is the biggest logit
     inds = torch.argsort(dist_matrix, dim=1, descending=True)
