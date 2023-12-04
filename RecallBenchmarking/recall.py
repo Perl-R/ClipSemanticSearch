@@ -8,7 +8,7 @@ import open_clip
 from tqdm import tqdm
 
 CAPTIONS_PER_IMAGE = 5 # Note: This is because some images in the COCO captions dataset have more than 5 captions, so we cap it at 5
-RUN_FINETUNED_CLIP = False
+RUN_FINETUNED_CLIP = True
 COCO_ROOT_PATH = r"D:\Programming\datasets\coco\val2017"
 COCO_ANNOTATIONS_PATH = r"D:\Programming\CAP 5415\ClipSemanticSearch\RecallBenchmarking\annotation_files\captions_val2017_1000_subset.json"
 USE_EUCLIDEAN_DISTANCE = False
@@ -17,7 +17,24 @@ print(f"{USE_EUCLIDEAN_DISTANCE=}")
 
 # Load our model for testing
 if RUN_FINETUNED_CLIP:
-    raise NotImplementedError("Finetuned Model Not Available Yet")
+    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    print(device)
+
+    model_name = 'ViT-B-32'
+    finetuned_path = 'D:\Programming\CAP 5415\ClipSemanticSearch\pretrained_model\clip_coco_train2017_epoch4.pt'
+
+    print(f"Finetuned Model: {model_name=}, {finetuned_path=}")
+
+    # We load in the model ourselves so we can correctly obtain the model weights
+    checkpoint = torch.load(finetuned_path)
+    state_dict = checkpoint['model_state_dict']
+
+    # Create the randomly initialized CLIP model and then load in the state dict
+    model, _, transform = open_clip.create_model_and_transforms(model_name)
+    model.load_state_dict(state_dict)
+    model.to(device).eval()
+
+    tokenizer = open_clip.get_tokenizer(model_name)
 # Run the Base CLIP model
 else:
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
