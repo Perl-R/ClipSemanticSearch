@@ -56,22 +56,26 @@ for epoch in range(1, CFG.num_epochs+1):
         texts = texts.to(CFG.device)
 
         texts = torch.flatten(texts, start_dim=0, end_dim=1)
-        
-        image_features = model.encode_image(images, normalize=True)
-        text_features = model.encode_text(texts, normalize=True)
 
-        matrix = image_features @ text_features.T
+        # image_features = model.encode_image(images)
+        # text_features = model.encode_text(texts)
+        
+        image_embedding, text_embedding, _ = model(images, texts)
+        
+        logits = image_embedding @ text_embedding.T
+        
         target = torch.arange(CFG.batch_size).to(CFG.device)
 
-        loss_i = CFG.loss_func(matrix, target)
-        loss_t = CFG.loss_func(matrix.T, target)
+        loss_i = CFG.loss_func(logits, target)
+        loss_t = CFG.loss_func(logits.T, target)
         loss = (loss_i + loss_t) / 2
 
         iter_losses.append(loss)
-        
 
         loss.backward()
         optimizer.step()
+        
+        break
 
     # Epoch loss
     epoch_losses.append(torch.mean(torch.tensor(iter_losses)).item())
@@ -81,6 +85,8 @@ for epoch in range(1, CFG.num_epochs+1):
         'model_state_dict': model.state_dict(),
         'optimizer_state_dict': optimizer.state_dict()
         }, f'./model_checkpoints/val2017_epoch_{epoch}.pt')
+    
+    break
 
 # Plot losses
 dim = np.arange(1, CFG.num_epochs, 1)
