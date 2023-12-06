@@ -11,13 +11,14 @@ import open_clip
 class CFG:
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     batch_size = 32
-    num_epochs = 30
-    learning_rate = 5e-5
-    weight_decay = 0.0
+    num_epochs = 10
+    learning_rate = 4e-8
+    weight_decay = 0.001
     model_name = "ViT-B-32"
     pretrained = "laion2b_s34b_b79k"
     loss_func = nn.functional.cross_entropy
     img_size = 224
+    logit_scale = 100
 
 # Instantite model and preprocessors
 model, _, preprocess = open_clip.create_model_and_transforms(model_name=CFG.model_name, pretrained=CFG.pretrained)
@@ -34,6 +35,8 @@ train_loader = DataLoader(train_dataset, batch_size=CFG.batch_size, shuffle=True
 
 optimizer = torch.optim.Adam(model.parameters(), lr = CFG.learning_rate,
                              weight_decay=CFG.weight_decay)
+scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer,
+                                                       T_max=len(train_loader)*CFG.num_epochs)
 
 # Check device
 print(f'Using device {CFG.device}.')
@@ -57,28 +60,27 @@ for epoch in range(1, CFG.num_epochs+1):
 
         texts = torch.flatten(texts, start_dim=0, end_dim=1)
 
-        # image_features = model.encode_image(images)
-        # text_features = model.encode_text(texts)
+        image_features = model.encode_image(images)
+        text_features = model.encode_text(texts)
         
-        image_embedding, text_embedding, _ = model(images, texts)
-        
-        logits = image_embedding @ text_embedding.T
-        
+        logits_per_image = CFG.logit_scale * image_features @ text_features.T
+        logits_per_text = CFG.logit_scale * text_features @ image_features.T
         target = torch.arange(CFG.batch_size).to(CFG.device)
 
-        loss_i = CFG.loss_func(logits, target)
-        loss_t = CFG.loss_func(logits.T, target)
+        loss_i = CFG.loss_func(logits_per_image, target)
+        loss_t = CFG.loss_func(logits_per_text, target)
         loss = (loss_i + loss_t) / 2
 
-        iter_losses.append(loss)
+        iter_losses.append(loss.item())
 
         loss.backward()
         optimizer.step()
+        scheduler.step()
         
-        break
+        pbar.set_description(f"Loss: {loss.item():.4f}")
 
     # Epoch loss
-    epoch_losses.append(torch.mean(torch.tensor(iter_losses)).item())
+    epoch_losses.append(np.mean(iter_losses))
 
     # Save model checkpoint
     torch.save({
@@ -86,14 +88,8 @@ for epoch in range(1, CFG.num_epochs+1):
         'optimizer_state_dict': optimizer.state_dict()
         }, f'./model_checkpoints/val2017_epoch_{epoch}.pt')
     
-    break
-
-# Plot losses
-dim = np.arange(1, CFG.num_epochs, 1)
-plt.figure()
-plt.plot(epoch_losses, label="Train")
-plt.xticks(dim)
-plt.xlabel("Epoch")
-plt.ylabel("Loss")
-plt.savefig("clip/val2017_losses.png")
-plt.clf()
+# Log epoch losses
+with open('./losses/epoch_losses.txt', 'w') as f:
+    f.write("Epoch Losses:\n")
+    for i, loss in enumerate(epoch_losses):
+        f.write(f'Epoch {i+1}/{CFG.num_epochs}: {loss}\n')
