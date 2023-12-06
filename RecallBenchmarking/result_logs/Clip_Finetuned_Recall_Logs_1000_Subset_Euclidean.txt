@@ -1,8 +1,8 @@
-USE_EUCLIDEAN_DISTANCE=False
+USE_EUCLIDEAN_DISTANCE=True
 cuda
-Finetuned Model: model_name='ViT-B-32', finetuned_path='D:\\Programming\\CAP 5415\\ClipSemanticSearch\\pretrained_model\\clip_coco_train2017_epoch4.pt'
+Finetuned Model: model_name='ViT-B-32', finetuned_path='model_checkpoints/val2017_epoch_10.pt'
 loading annotations into memory...
-Done (t=0.02s)
+Done (t=0.01s)
 creating index...
 index created!
 Encoding Dataset
@@ -16,19 +16,19 @@ T-I Map Shape: torch.Size([5000])
 I-T Map Shape: torch.Size([1000, 5])
 num_text=5000, num_im=1000
 Text-to-image recall
-Using Cosine Similarity
+Using Euclidean Distance (Note: We are not using normalized vectors)
 dist_matrix shape: torch.Size([5000, 1000])
 Obtaining Scores for each K value
 Image-to-text recall
 Obtaining Scores for each K value
 Done
 Text-to-image Recall@K
- R@1: 6.36%
- R@5: 23.32%
- R@10: 34.42%
- R@50: 69.90%
+ R@1: 35.56%
+ R@5: 65.78%
+ R@10: 76.96%
+ R@50: 94.20%
 Image-to-text Recall@K
- R@1: 7.20%
- R@5: 22.70%
- R@10: 33.00%
- R@50: 63.40%
+ R@1: 74.40%
+ R@5: 93.20%
+ R@10: 97.60%
+ R@50: 99.90%
