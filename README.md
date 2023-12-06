@@ -20,6 +20,7 @@ We also include a Gradio Demo as well to show how CLIP is used for image search
 
 ## Gradio Demo Information
 
+Link to Demonstration Video: https://drive.google.com/file/d/1Bh4ta_mJqRucW6fbHFfDH-yKee6k-AMc/view?usp=drive_link
 TODO: Add Info here
 
 ## Dataset: COCO Captions
